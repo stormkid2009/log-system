@@ -3,7 +3,7 @@ export * from "@/types";
 
 // Export core functionality
 export * from "@/formatters";
-export * from "@/writers/writers";
+export * from "@/writers";
 export * from "@/extractors";
 
 // Export the Logger class
