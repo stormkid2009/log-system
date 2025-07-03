@@ -7,10 +7,10 @@ export * from "@/writers";
 export * from "@/extractors";
 
 // Export the Logger class
-export { Logger } from "./logger";
+export { Logger } from "@/main-class/logger";
 
 // Create a default logger instance for easy use
-import { Logger } from "./logger";
+import { Logger } from "@/main-class/logger";
 const defaultLogger = new Logger();
 
 // Export individual logging functions that use the default logger
