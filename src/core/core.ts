@@ -1,7 +1,7 @@
 // Core logging functionality
 
-import { LogLevel, LogEntry, ApiError } from "./types";
-import { safeAppendToLog } from "./writers";
+import { LogLevel, LogEntry, ApiError } from "../types/types";
+import { safeAppendToLog } from "../writers/writers";
 
 // Create a log entry and write it to the log file
 export async function writeLog(
@@ -25,6 +25,6 @@ export function createLogEntry(
     timestamp: new Date().toISOString(),
     level,
     message,
-    error 
+    error,
   };
 }

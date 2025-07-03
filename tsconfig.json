@@ -7,7 +7,16 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "src",
+    "paths": {
+      "@loggers/*": ["loggers/*"],
+      "@extractors/*": ["extractors/*"],
+      "@formatters/*": ["formatters/*"],
+      "@writers/*": ["writers/*"],
+      "@types/*": ["types/*"],
+      "@constants/*": ["constants/*"]
+    }
   },
   "include": ["src", "types"],
   "exclude": ["node_modules", "dist", "test"]

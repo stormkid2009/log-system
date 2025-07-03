@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { DEFAULT_CONFIG } from "./constants";
+import { DEFAULT_CONFIG } from "@/src/constants/constants";
 
 // Track the write queue for sequential file writes
 let writeQueue: Promise<void> = Promise.resolve();
@@ -9,7 +9,7 @@ let lastRotationCheck = Date.now();
 /**
  * Ensures that the log directory exists.
  * If the directory does not exist, it is created recursively.
- * 
+ *
  * @param logDir - The directory path where logs will be stored
  */
 export async function ensureLogDirectory(logDir = DEFAULT_CONFIG.LOG_DIR) {
@@ -24,12 +24,12 @@ export async function ensureLogDirectory(logDir = DEFAULT_CONFIG.LOG_DIR) {
 /**
  * Rotates the log file if it exceeds the maximum allowed size.
  * The current log file is renamed with a timestamp appended to its filename.
- * 
+ *
  * @param logFilePath - The path to the log file to check
  * @param maxSize - Maximum size in bytes before rotation occurs
  */
 export async function rotateLogFile(
-  logFilePath = DEFAULT_CONFIG.LOG_FILE_PATH, 
+  logFilePath = DEFAULT_CONFIG.LOG_FILE_PATH,
   maxSize = DEFAULT_CONFIG.MAX_LOG_SIZE
 ) {
   const now = new Date();
@@ -44,7 +44,7 @@ export async function rotateLogFile(
       const base = path.basename(logFilePath, ext);
       const timestamp = now.toISOString().replace(/[:.]/g, "-");
       const newPath = path.join(dir, `${base}-${timestamp}${ext}`);
-      
+
       // Rename the current log file to the backup name
       await fs.rename(logFilePath, newPath);
     }
@@ -63,7 +63,7 @@ export async function rotateLogFile(
  * @returns A promise that resolves when the write operation is completed
  */
 export async function safeAppendToLog(
-  data: string, 
+  data: string,
   logFilePath = DEFAULT_CONFIG.LOG_FILE_PATH
 ): Promise<void> {
   // Use a promise queue to ensure sequential writes
@@ -71,12 +71,15 @@ export async function safeAppendToLog(
     try {
       // Get the directory from the log file path
       const logDir = path.dirname(logFilePath);
-      
+
       // Ensure the log directory exists
       await ensureLogDirectory(logDir);
 
       // Check log rotation interval
-      if (Date.now() - lastRotationCheck > DEFAULT_CONFIG.ROTATION_CHECK_INTERVAL) {
+      if (
+        Date.now() - lastRotationCheck >
+        DEFAULT_CONFIG.ROTATION_CHECK_INTERVAL
+      ) {
         await rotateLogFile(logFilePath);
         lastRotationCheck = Date.now();
       }

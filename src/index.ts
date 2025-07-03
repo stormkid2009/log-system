@@ -1,40 +1,26 @@
-import fs from "fs";
-import path from "path";
+// Export types
+export * from "@/types/types";
 
-export enum LogLevel {
-  INFO = "INFO",
-  WARN = "WARN",
-  ERROR = "ERROR",
+// Export core functionality
+export * from "@/formatters/formatters";
+export * from "@/writers/writers";
+export * from "@/extractors/extractors";
+
+// Export the Logger class
+export { Logger } from "./logger";
+
+// Create a default logger instance for easy use
+import { Logger } from "./logger";
+const defaultLogger = new Logger();
+
+// Export individual logging functions that use the default logger
+export const logError = defaultLogger.error.bind(defaultLogger);
+export const logApiError = defaultLogger.apiError.bind(defaultLogger);
+export const logInfo = defaultLogger.info.bind(defaultLogger);
+export const logWarn = defaultLogger.warn.bind(defaultLogger);
+export const logDebug = defaultLogger.debug.bind(defaultLogger);
+
+// Configure the default logger (convenience function)
+export function configureLogger(config: Parameters<typeof Logger>[0]) {
+  return new Logger(config);
 }
-
-export class Logger {
-  private logFile: string;
-
-  constructor(logFilePath: string = path.join(__dirname, "../logs/app.log")) {
-    this.logFile = logFilePath;
-    // Ensure log directory exists
-    fs.mkdirSync(path.dirname(this.logFile), { recursive: true });
-  }
-
-  log(level: LogLevel, message: string) {
-    const logEntry = `[${new Date().toISOString()}] [${level}] ${message}\n`;
-    fs.appendFileSync(this.logFile, logEntry);
-    console.log(logEntry.trim());
-  }
-
-  info(message: string) {
-    this.log(LogLevel.INFO, message);
-  }
-
-  warn(message: string) {
-    this.log(LogLevel.WARN, message);
-  }
-
-  error(message: string) {
-    this.log(LogLevel.ERROR, message);
-  }
-}
-
-// Example usage
-const logger = new Logger();
-logger.info("Logging system initialized.");
