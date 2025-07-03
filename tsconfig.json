@@ -10,12 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "src",
     "paths": {
-      "@loggers/*": ["loggers/*"],
-      "@extractors/*": ["extractors/*"],
-      "@formatters/*": ["formatters/*"],
-      "@writers/*": ["writers/*"],
-      "@types/*": ["types/*"],
-      "@constants/*": ["constants/*"]
+      "@/*": ["*"]
     }
   },
   "include": ["src", "types"],
