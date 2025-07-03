@@ -1,5 +1,5 @@
 // Export types
-export * from "@/types/types";
+export * from "@/types";
 
 // Export core functionality
 export * from "@/formatters";

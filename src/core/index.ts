@@ -1,6 +1,6 @@
 // Core logging functionality
 
-import { LogLevel, LogEntry, ApiError } from "../types/types";
+import { LogLevel, LogEntry, ApiError } from "../types";
 import { safeAppendToLog } from "../writers/writers";
 
 // Create a log entry and write it to the log file

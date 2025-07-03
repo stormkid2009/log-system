@@ -1,6 +1,6 @@
 // Log formatting utilites
 
-import { LogEntry, LogLevel, ApiError } from "../types/types";
+import { LogEntry, LogLevel, ApiError } from "../types";
 
 /**
  * Interface for log formatters
