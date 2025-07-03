@@ -4,7 +4,7 @@ export * from "@/types/types";
 // Export core functionality
 export * from "@/formatters";
 export * from "@/writers/writers";
-export * from "@/extractors/extractors";
+export * from "@/extractors";
 
 // Export the Logger class
 export { Logger } from "./logger";
