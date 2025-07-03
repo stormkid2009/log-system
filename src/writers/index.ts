@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { DEFAULT_CONFIG } from "@/constants";
+import { DEFAULT_CONFIG } from "../constants";
 
 // Track the write queue for sequential file writes
 let writeQueue: Promise<void> = Promise.resolve();

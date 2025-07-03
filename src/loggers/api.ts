@@ -1,6 +1,6 @@
 import { createLogEntry } from "../core";
-import { safeAppendToLog } from "../../writers/writers";
-import { extractRequestData } from "../../extractors/extractors";
+import { safeAppendToLog } from "../writers/";
+import { extractRequestData } from "../extractors";
 import { LogLevel } from "../types";
 
 export async function logApiError(

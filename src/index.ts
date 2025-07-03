@@ -1,16 +1,16 @@
 // Export types
-export * from "@/types";
+export * from "./types";
 
 // Export core functionality
-export * from "@/formatters";
-export * from "@/writers";
-export * from "@/extractors";
+export * from "./formatters";
+export * from "./writers";
+export * from "./extractors";
 
 // Export the Logger class
-export { Logger } from "@/main-class/logger";
+export { Logger } from "./main-class/logger";
 
 // Create a default logger instance for easy use
-import { Logger } from "@/main-class/logger";
+import { Logger } from "./main-class/logger";
 const defaultLogger = new Logger();
 
 // Export individual logging functions that use the default logger
