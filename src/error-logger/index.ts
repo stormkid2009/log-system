@@ -1,8 +1,7 @@
+// error-logger/index
 import { createLogEntry } from "../log-entry";
-import { safeAppendToLog  } from "../file-manager";
-import { extractRequestData ,ApiRequestData} from "../request-utils";
-import { LogLevel, ApiError } from "../types";
-
+import { safeAppendToLog } from "../file-manager";
+import { LogLevel } from "../types";
 
 /**
  * Logs a general error to the log file without additional API context.
@@ -19,5 +18,3 @@ export async function logError(message: string, error: Error): Promise<void> {
 
   await safeAppendToLog(JSON.stringify(logEntry));
 }
-
-
