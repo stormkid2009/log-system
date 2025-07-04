@@ -1,3 +1,4 @@
+// log-entry/index.ts
 // Core logging functionality
 
 import { LogLevel, LogEntry, ApiError } from "../types";
@@ -19,7 +20,7 @@ export async function writeLog(
 export function createLogEntry(
   level: LogLevel,
   message: string,
-  error?: ApiError
+  error?: ApiError,
 ): LogEntry {
   // Implementation
   return {
