@@ -1,6 +1,6 @@
 // Interface now includes url and headers can be Record or Headers
 // name changed from extractors to request-utils
-//
+// request-utils/index.ts
 // This file contains utility functions for extracting request data from Next.js requests.
 // It is designed to work with both NextRequest and standard Request objects.
 
