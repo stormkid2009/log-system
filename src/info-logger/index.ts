@@ -1,10 +1,7 @@
+// info-logger/index.ts
 import { createLogEntry } from "../log-entry";
-import { safeAppendToLog  } from "../file-manager";
-import { extractRequestData ,ApiRequestData} from "../request-utils";
-import { LogLevel, ApiError } from "../types";
-
-
-
+import { safeAppendToLog } from "../file-manager";
+import { LogLevel } from "../types";
 
 /**
  * Logs an informational message to the log file.
