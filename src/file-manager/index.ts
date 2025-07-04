@@ -1,4 +1,5 @@
 // ex writers now file-manager
+// file-manager/index.ts
 import fs from "fs/promises";
 import path from "path";
 import { DEFAULT_CONFIG } from "../config";
@@ -61,9 +62,6 @@ export async function rotateLogFile(
     //throw error;
   }
 }
-
-
-
 
 /**
  * Safely appends the provided log data to the log file.
