@@ -47,3 +47,42 @@ export async function logApiError(
   });
   await safeAppendToLog(JSON.stringify(logEntry));
 }
+
+
+/**
+ * Logs a general error to the log file without additional API context.
+ */
+export async function logError(message: string, error: Error): Promise<void> {
+  const logEntry = createLogEntry(LogLevel.ERROR, message, {
+    path: "unknown",
+    method: "unknown",
+    statusCode: 500,
+    errorName: error.name,
+    errorMessage: error.message,
+    stack: error.stack,
+  });
+
+  await safeAppendToLog(JSON.stringify(logEntry));
+}
+
+
+/**
+ * Logs an informational message to the log file.
+ */
+export async function logInfo(message: string): Promise<void> {
+  const logEntry = createLogEntry(LogLevel.INFO, message);
+  await safeAppendToLog(JSON.stringify(logEntry));
+}
+
+
+/**
+ * Logs a warning message to the log file.
+ */
+export async function logWarn(
+  message: string,
+  details?: Record<string, unknown>,
+): Promise<void> {
+  const logEntry = createLogEntry(LogLevel.WARN, message, details as any);
+  await safeAppendToLog(JSON.stringify(logEntry));
+}
+

@@ -1,7 +1,7 @@
 // index.ts - Main export file
 export { LogLevel } from "./types";
 export type { ApiError, LogEntry } from "./types";
-export { logApiError} from "./api-logger";
+export { logApiError} from "./logger";
 export {logError } from "./error-logger";
 export { logInfo } from "./info-logger";
 export { logWarn } from "./warn-logger";
