@@ -27,12 +27,12 @@ export interface ApiError {
     params?: Record<string, string>;
     headers?: Record<string, string>;
     body?: unknown;
-  }
+  };
 }
 
 /**
-  * Interface representing a log entry.
-  */
+ * Interface representing a log entry.
+ */
 
 export interface LogEntry {
   timestamp: string;
@@ -43,54 +43,53 @@ export interface LogEntry {
 }
 
 /**
-  * Configuration options for the logger.
-  */
+ * Configuration options for the logger.
+ */
 
 export interface LoggerConfig {
   /**
-  * Directory where log files will be stored
-  */
+   * Directory where log files will be stored
+   */
   logDir?: string;
 
   /**
-  * Maximum size of log files rotation (in bytes)
-  */
+   * Maximum size of log files rotation (in bytes)
+   */
   maxLogSize?: number;
   /**
-  * Interval to check for log rotation (in milliseconds)
-  */
+   * Interval to check for log rotation (in milliseconds)
+   */
   rotationInterval?: number;
   /**
-  * Default format for log entries ('json','text',or 'csv')
-  */
-  format?: 'json' | 'text' | 'csv';
+   * Default format for log entries ('json','text',or 'csv')
+   */
+  format?: "json" | "text" | "csv";
 
   /**
    * Options specific to the selected formatter
-  */
-  formatOptions?:{
+   */
+  formatOptions?: {
     /**
      * Whether to pretty-print JSON (for 'json' format)
-    */
-    pretty?:boolean;
+     */
+    pretty?: boolean;
 
-  /**
-   * Maximum stack trace depth to include in logs
-   */
-    maxStackDepth?:number;
+    /**
+     * Maximum stack trace depth to include in logs
+     */
+    maxStackDepth?: number;
 
-/**
+    /**
      * Any other format-specific options
      */
     [key: string]: any;
-
   };
 
- /**
+  /**
    * Whether to also log to console
    */
   consoleOutput?: boolean;
-  
+
   /**
    * Minimum log level to write (excludes levels below this)
    */
@@ -103,5 +102,5 @@ export interface LoggerConfig {
 export enum LogDestination {
   FILE = "file",
   CONSOLE = "console",
-  REMOTE = "remote"
+  REMOTE = "remote",
 }

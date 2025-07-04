@@ -1,9 +1,10 @@
 // Core logging functionality
 
 import { LogLevel, LogEntry, ApiError } from "../types";
-import { safeAppendToLog } from "../writers";
+import { safeAppendToLog } from "../file-manager";
 
 // Create a log entry and write it to the log file
+/**
 export async function writeLog(
   level: LogLevel,
   message: string,
@@ -13,7 +14,7 @@ export async function writeLog(
   const entry = createLogEntry(level, message, error);
   await safeAppendToLog(entry, logFilePath);
 }
-
+*/
 // Create a log entry object
 export function createLogEntry(
   level: LogLevel,
@@ -25,6 +26,10 @@ export function createLogEntry(
     timestamp: new Date().toISOString(),
     level,
     message,
-    error,
+    error: error && {
+      ...error,
+      // Limit stack trace depth for readability
+      stack: error.stack?.split("\n").slice(0, 5).join("\n"),
+    },
   };
 }

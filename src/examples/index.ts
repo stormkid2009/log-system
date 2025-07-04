@@ -1,5 +1,7 @@
+/**
+
 // Example 1: Basic usage with the default logger
-import { logInfo, logError, logApiError } from '@/logger';
+import { logInfo, logError, logApiError } from '../main-class/logger';
 
 // Log an informational message
 logInfo('Application started successfully');
@@ -82,3 +84,5 @@ class ClickhouseFormatter implements LogFormatter {
 // Use the custom formatter with a logger
 const analyticsLogger = new Logger();
 analyticsLogger.setCustomFormatter(new ClickhouseFormatter());
+
+*/

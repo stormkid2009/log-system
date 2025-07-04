@@ -1,26 +1,18 @@
-// Export types
-export * from "./types";
+// index.ts - Main export file
+export { LogLevel } from "./types";
+export type { ApiError, LogEntry } from "./types";
+export { logApiError} from "./api-logger";
+export {logError } from "./error-logger";
+export { logInfo } from "./info-logger";
+export { logWarn } from "./warn-logger";
+export { setlastRotationCheck } from "./file-manager";
+export { DEFAULT_CONFIG } from "./config";
 
-// Export core functionality
-export * from "./formatters";
-export * from "./writers";
-export * from "./extractors";
-
-// Export the Logger class
-export { Logger } from "./main-class/logger";
-
-// Create a default logger instance for easy use
-import { Logger } from "./main-class/logger";
-const defaultLogger = new Logger();
-
-// Export individual logging functions that use the default logger
-export const logError = defaultLogger.error.bind(defaultLogger);
-export const logApiError = defaultLogger.apiError.bind(defaultLogger);
-export const logInfo = defaultLogger.info.bind(defaultLogger);
-export const logWarn = defaultLogger.warn.bind(defaultLogger);
-export const logDebug = defaultLogger.debug.bind(defaultLogger);
-
-// Configure the default logger (convenience function)
-export function configureLogger(config: Parameters<typeof Logger>[0]) {
-  return new Logger(config);
-}
+// Re-export utility functions for advanced usage
+export { createLogEntry } from "./log-entry";
+export { extractRequestData } from "./request-utils";
+export {
+  safeAppendToLog,
+  ensureLogDirectory,
+  rotateLogFile,
+} from "./file-manager";

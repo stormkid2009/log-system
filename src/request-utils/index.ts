@@ -1,4 +1,9 @@
 // Interface now includes url and headers can be Record or Headers
+// name changed from extractors to request-utils
+//
+// This file contains utility functions for extracting request data from Next.js requests.
+// It is designed to work with both NextRequest and standard Request objects.
+
 export interface ApiRequestData {
   url: string;
   method: string;
@@ -7,11 +12,11 @@ export interface ApiRequestData {
 
 /**
  * Extract relevant information from a NextRequest or standard Request object
- * 
+ *
  * @param request - The request object
  * @returns Object containing extracted request data
  */
-export function extractRequestData(request: ApiRequestData) {
+export function extractRequestData(request: ApiRequestData | Request) {
   try {
     const url = new URL(request.url);
     const method = request.method;
@@ -20,12 +25,12 @@ export function extractRequestData(request: ApiRequestData) {
     // Extract headers (limited set for security/privacy)
     const headers: Record<string, string> = {};
     const importantHeaders = [
-      'content-type',
-      'user-agent',
-      'referer',
-      'x-request-id',
-      'x-correlation-id',
-      'x-forwarded-for'
+      "content-type",
+      "user-agent",
+      "referer",
+      "x-request-id",
+      "x-correlation-id",
+      "x-forwarded-for",
     ];
 
     // Support both Headers and plain object
@@ -53,7 +58,7 @@ export function extractRequestData(request: ApiRequestData) {
       path,
       method,
       headers,
-      query
+      query,
     };
   } catch (error) {
     console.error("Failed to extract request data:", error);
@@ -61,7 +66,7 @@ export function extractRequestData(request: ApiRequestData) {
       path: "unknown",
       method: "unknown",
       headers: {},
-      query: {}
+      query: {},
     };
   }
 }

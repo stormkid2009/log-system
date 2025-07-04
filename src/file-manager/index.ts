@@ -1,10 +1,18 @@
+// ex writers now file-manager
 import fs from "fs/promises";
 import path from "path";
-import { DEFAULT_CONFIG } from "../constants";
+import { DEFAULT_CONFIG } from "../config";
 
 // Track the write queue for sequential file writes
 let writeQueue: Promise<void> = Promise.resolve();
 let lastRotationCheck = Date.now();
+
+// For testing purposes
+export function setlastRotationCheck(value: number) {
+  lastRotationCheck = value;
+}
+
+export { lastRotationCheck, writeQueue };
 
 /**
  * Ensures that the log directory exists.
@@ -30,7 +38,7 @@ export async function ensureLogDirectory(logDir = DEFAULT_CONFIG.LOG_DIR) {
  */
 export async function rotateLogFile(
   logFilePath = DEFAULT_CONFIG.LOG_FILE_PATH,
-  maxSize = DEFAULT_CONFIG.MAX_LOG_SIZE
+  maxSize = DEFAULT_CONFIG.MAX_LOG_SIZE,
 ) {
   const now = new Date();
   try {
@@ -49,10 +57,13 @@ export async function rotateLogFile(
       await fs.rename(logFilePath, newPath);
     }
   } catch (error) {
-    console.error("Log rotation failed:", error);
-    throw error;
+    console.error("Failed to create logs directory:", error);
+    //throw error;
   }
 }
+
+
+
 
 /**
  * Safely appends the provided log data to the log file.
@@ -64,7 +75,7 @@ export async function rotateLogFile(
  */
 export async function safeAppendToLog(
   data: string,
-  logFilePath = DEFAULT_CONFIG.LOG_FILE_PATH
+  logFilePath = DEFAULT_CONFIG.LOG_FILE_PATH,
 ): Promise<void> {
   // Use a promise queue to ensure sequential writes
   writeQueue = writeQueue.then(async () => {
@@ -88,7 +99,7 @@ export async function safeAppendToLog(
       await fs.appendFile(logFilePath, data + "\n", "utf8");
     } catch (error) {
       console.error("Failed to write to log file:", error);
-      throw error;
+      //throw error;
     }
   });
 
