@@ -1,10 +1,7 @@
 // index.ts - Main export file
 export { LogLevel } from "./types";
 export type { ApiError, LogEntry } from "./types";
-export { logApiError} from "./logger";
-export {logError } from "./error-logger";
-export { logInfo } from "./info-logger";
-export { logWarn } from "./warn-logger";
+export { logApiError, logError, logInfo, logWarn } from "./logger";
 export { setlastRotationCheck } from "./file-manager";
 export { DEFAULT_CONFIG } from "./config";
 

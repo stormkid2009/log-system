@@ -1,16 +1,30 @@
 {
   "name": "log-system",
   "version": "1.0.0",
+  "description": "A robust logging library for API errors and general logging",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts",
-    "test": "echo \"No tests yet\""
+    "dev": "ts-node examples/basic-usage.ts",
+    "test:basic": "ts-node examples/basic-usage.ts",
+    "test:api": "ts-node examples/api-error-example.ts",
+    "test:nextjs": "ts-node examples/nextjs-example.ts",
+    "clean": "rm -rf dist logs",
+    "prepublishOnly": "npm run clean && npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "logging",
+    "api",
+    "errors",
+    "nextjs",
+    "typescript"
+  ],
+  "author": "Anwar Ahmed",
+  "license": "MIT",
   "devDependencies": {
     "typescript": "^5.0.0",
     "ts-node": "^10.0.0",
