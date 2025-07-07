@@ -2,6 +2,8 @@
  * @module log-system
  * @description
  * Main entry point for the log system module.
+ * The technique used here is Barrel File Pattern
+ * A barrel is a module that re-exports selected exports from other modules to provide a convenient single entry point.
  *
  * This module provides a comprehensive logging solution with the following features:
  * - Multiple log levels (INFO, WARN, ERROR, etc.)
