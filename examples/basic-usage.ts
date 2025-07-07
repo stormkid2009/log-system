@@ -1,4 +1,15 @@
-import { logInfo, logWarn, logError, LogLevel } from "../src/index";
+import {
+  logInfo,
+  logWarn,
+  logError,
+  LogLevel,
+  setLoggerConfig,
+} from "../src/index";
+
+setLoggerConfig({
+  format: "text",
+  consoleOutput: true,
+});
 
 async function basicUsageExample() {
   console.log("🚀 Testing Basic Logging Functions...\n");
@@ -27,4 +38,20 @@ async function basicUsageExample() {
   }
 }
 
-basicUsageExample();
+async function csvUsageExample() {
+  console.log("\n--- Switching to CSV format ---\n");
+  setLoggerConfig({
+    format: "csv",
+    consoleOutput: true,
+  });
+
+  await logInfo("Application started successfully (CSV)");
+  await logWarn("This is a warning message (CSV)", {
+    component: "BasicExample",
+    timestamp: new Date().toISOString(),
+  });
+  const testError = new Error("This is a test error (CSV)");
+  await logError("Test error occurred (CSV)", testError);
+}
+
+basicUsageExample().then(csvUsageExample);

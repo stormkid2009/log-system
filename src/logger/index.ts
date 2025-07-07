@@ -10,7 +10,38 @@
 import { createLogEntry } from "../log-entry";
 import { safeAppendToLog } from "../file-manager";
 import { extractRequestData, ApiRequestData } from "../request-utils";
-import { LogLevel, ApiError } from "../types";
+import { LogLevel, ApiError, LoggerConfig } from "../types";
+import { createFormatter } from "../custom-format";
+
+// Global logger config (default)
+let globalLoggerConfig: LoggerConfig = {
+  format: "json",
+  formatOptions: {},
+  consoleOutput: false,
+};
+
+export function setLoggerConfig(config: Partial<LoggerConfig>) {
+  globalLoggerConfig = { ...globalLoggerConfig, ...config };
+}
+
+export function getLoggerConfig(): LoggerConfig {
+  return { ...globalLoggerConfig };
+}
+
+function getFormatter(config?: LoggerConfig) {
+  const cfg = config || globalLoggerConfig;
+  return createFormatter(cfg.format || "json", cfg.formatOptions || {});
+}
+
+async function writeLog(formatted: string, config?: LoggerConfig) {
+  // Write to file
+  await safeAppendToLog(formatted);
+  // Optionally output to console
+  if ((config || globalLoggerConfig).consoleOutput) {
+    // Remove trailing newline for console
+    console.log(formatted.trim());
+  }
+}
 
 /**
  * Logs an API-related error with detailed request context.
@@ -48,25 +79,21 @@ export async function logApiError(
     statusCode: number;
     params?: Record<string, string>;
     requestBody?: unknown;
-  }
+  },
+  configOverride?: Partial<LoggerConfig>
 ): Promise<void> {
-  // Implementation remains the same
   let requestData: any = {};
-
   if (context.request) {
     const extractedData = extractRequestData(context.request);
     requestData = {
       query: extractedData.query,
       headers: extractedData.headers,
     };
-
     if (!context.path) context.path = extractedData.path;
     if (!context.method) context.method = extractedData.method;
   }
-
   if (context.params) requestData.params = context.params;
   if (context.requestBody) requestData.body = context.requestBody;
-
   const logEntry = createLogEntry(LogLevel.ERROR, message, {
     path: context.path || "unknown",
     method: context.method || "unknown",
@@ -76,7 +103,9 @@ export async function logApiError(
     stack: error.stack,
     requestData: Object.keys(requestData).length > 0 ? requestData : undefined,
   });
-  await safeAppendToLog(JSON.stringify(logEntry));
+  const config = { ...globalLoggerConfig, ...configOverride };
+  const formatter = getFormatter(config);
+  await writeLog(formatter.format(logEntry), config);
 }
 
 /**
@@ -94,7 +123,11 @@ export async function logApiError(
  *   await logError('Failed to process data', error);
  * }
  */
-export async function logError(message: string, error: Error): Promise<void> {
+export async function logError(
+  message: string,
+  error: Error,
+  configOverride?: Partial<LoggerConfig>
+): Promise<void> {
   const logEntry = createLogEntry(LogLevel.ERROR, message, {
     path: "unknown",
     method: "unknown",
@@ -103,8 +136,9 @@ export async function logError(message: string, error: Error): Promise<void> {
     errorMessage: error.message,
     stack: error.stack,
   });
-
-  await safeAppendToLog(JSON.stringify(logEntry));
+  const config = { ...globalLoggerConfig, ...configOverride };
+  const formatter = getFormatter(config);
+  await writeLog(formatter.format(logEntry), config);
 }
 
 /**
@@ -117,9 +151,14 @@ export async function logError(message: string, error: Error): Promise<void> {
  * @example
  * await logInfo('Application started successfully');
  */
-export async function logInfo(message: string): Promise<void> {
+export async function logInfo(
+  message: string,
+  configOverride?: Partial<LoggerConfig>
+): Promise<void> {
   const logEntry = createLogEntry(LogLevel.INFO, message);
-  await safeAppendToLog(JSON.stringify(logEntry));
+  const config = { ...globalLoggerConfig, ...configOverride };
+  const formatter = getFormatter(config);
+  await writeLog(formatter.format(logEntry), config);
 }
 
 /**
@@ -135,8 +174,11 @@ export async function logInfo(message: string): Promise<void> {
  */
 export async function logWarn(
   message: string,
-  details?: Record<string, unknown>
+  details?: Record<string, unknown>,
+  configOverride?: Partial<LoggerConfig>
 ): Promise<void> {
   const logEntry = createLogEntry(LogLevel.WARN, message, details as any);
-  await safeAppendToLog(JSON.stringify(logEntry));
+  const config = { ...globalLoggerConfig, ...configOverride };
+  const formatter = getFormatter(config);
+  await writeLog(formatter.format(logEntry), config);
 }

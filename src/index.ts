@@ -34,6 +34,13 @@ export type { ApiError, LogEntry } from "./types";
 
 // Core logging functions
 export { logApiError, logError, logInfo, logWarn } from "./logger";
+export { setLoggerConfig, getLoggerConfig } from "./logger";
+export {
+  createFormatter,
+  JsonFormatter,
+  TextFormatter,
+  CsvFormatter,
+} from "./custom-format";
 
 // File management utilities
 export { setlastRotationCheck } from "./file-manager";
