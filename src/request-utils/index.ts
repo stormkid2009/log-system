@@ -1,7 +1,22 @@
-// request-utils/index.ts
-// This file contains utility functions for extracting request data from Next.js requests.
-// It is designed to work with both NextRequest and standard Request objects.
+/**
+ * Request Utilities Module
+ *
+ * Provides utility functions for extracting and processing HTTP request data.
+ * Designed to work with both Next.js requests and standard Request objects,
+ * with built-in security measures to handle sensitive information appropriately.
+ *
+ * @module request-utils
+ */
 
+/**
+ * Represents a simplified HTTP request object with essential properties.
+ * This interface is designed to be compatible with various request types.
+ *
+ * @interface ApiRequestData
+ * @property {string} url - The request URL
+ * @property {string} method - The HTTP method (e.g., 'GET', 'POST')
+ * @property {Record<string, string> | Headers} headers - Request headers
+ */
 export interface ApiRequestData {
   url: string;
   method: string;
@@ -9,10 +24,28 @@ export interface ApiRequestData {
 }
 
 /**
- * Extract relevant information from a NextRequest or standard Request object
+ * Extracts and processes relevant information from a request object.
+ * Handles both standard Request objects and custom ApiRequestData objects.
  *
- * @param request - The request object
- * @returns Object containing extracted request data
+ * @param {ApiRequestData | Request} request - The request object to process
+ * @returns {Object} An object containing the extracted request data
+ * @property {string} path - The request path
+ * @property {string} method - The HTTP method
+ * @property {Record<string, string>} headers - Filtered request headers (only includes important headers)
+ * @property {Record<string, string>} query - URL query parameters
+ *
+ * @example
+ * // With a standard Request object
+ * const data = extractRequestData(request);
+ * // { path: '/api/users', method: 'GET', headers: {...}, query: {...} }
+ *
+ * @example
+ * // With a custom ApiRequestData object
+ * const data = extractRequestData({
+ *   url: 'https://example.com/api/users?page=1',
+ *   method: 'GET',
+ *   headers: { 'user-agent': 'Mozilla/5.0', 'authorization': 'Bearer token' }
+ * });
  */
 export function extractRequestData(request: ApiRequestData | Request) {
   try {
@@ -66,6 +99,5 @@ export function extractRequestData(request: ApiRequestData | Request) {
       headers: {},
       query: {},
     };
-    // name changed from extractors to request-utils
   }
 }
