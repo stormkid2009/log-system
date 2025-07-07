@@ -9,7 +9,6 @@
  */
 
 import { LogLevel, LogEntry, ApiError } from "../types";
-import { safeAppendToLog } from "../file-manager";
 
 /**
  * Creates a structured log entry with the provided parameters.
