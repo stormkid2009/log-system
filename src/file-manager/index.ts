@@ -100,26 +100,23 @@ export async function rotateLogFile(
  * @async
  * @param {string} data - The formatted log data to append
  * @param {string} [logFilePath=DEFAULT_CONFIG.LOG_FILE_PATH] - Path to the log file
+ * @param {number} [maxSize=DEFAULT_CONFIG.MAX_LOG_SIZE] - Maximum size in bytes before rotation
  * @returns {Promise<void>} Resolves when the write operation completes
  * @example
  * await safeAppendToLog('2023-01-01T00:00:00.000Z [INFO] Application started');
  */
 export async function safeAppendToLog(
   data: string,
-  logFilePath = DEFAULT_CONFIG.LOG_FILE_PATH
+  logFilePath = DEFAULT_CONFIG.LOG_FILE_PATH,
+  maxSize = DEFAULT_CONFIG.MAX_LOG_SIZE
 ): Promise<void> {
   writeQueue = writeQueue.then(async () => {
     try {
       const logDir = path.dirname(logFilePath);
       await ensureLogDirectory(logDir);
 
-      if (
-        Date.now() - lastRotationCheck >
-        DEFAULT_CONFIG.ROTATION_CHECK_INTERVAL
-      ) {
-        await rotateLogFile(logFilePath);
-        lastRotationCheck = Date.now();
-      }
+      // Always check file size before every write
+      await rotateLogFile(logFilePath, maxSize);
 
       await fs.appendFile(logFilePath, data + "\n", "utf8");
     } catch (error) {

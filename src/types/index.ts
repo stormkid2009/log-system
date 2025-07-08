@@ -89,6 +89,7 @@ export interface LogEntry {
  */
 export interface LoggerConfig {
   logDir?: string;
+  logFilePath?: string;
   maxLogSize?: number;
   rotationInterval?: number;
   format?: "json" | "text" | "csv";

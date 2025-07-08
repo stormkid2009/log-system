@@ -35,7 +35,7 @@ function getFormatter(config?: LoggerConfig) {
 
 async function writeLog(formatted: string, config?: LoggerConfig) {
   // Write to file
-  await safeAppendToLog(formatted);
+  await safeAppendToLog(formatted, config?.logFilePath, config?.maxLogSize);
   // Optionally output to console
   if ((config || globalLoggerConfig).consoleOutput) {
     // Remove trailing newline for console
