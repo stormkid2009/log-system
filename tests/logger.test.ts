@@ -165,17 +165,32 @@ describe("Advanced Logger Features", () => {
       Array.from({ length: N }, (_, i) => logInfo(`Concurrent log ${i}`))
     );
     await writeQueue;
-    // Optional: Add a short delay to ensure file system flush
-    await new Promise((r) => setTimeout(r, 50));
-    // Aggregate all log files (main + rotated)
-    const files = fs
-      .readdirSync(__dirname)
-      .filter((f) => f.startsWith("rotate-test") && f.endsWith(".log"));
-    let content = "";
-    for (const file of files) {
-      content += fs.readFileSync(path.join(__dirname, file), "utf8");
-    }
-    // Debug: Print the actual log content
+
+    // Wait up to 500ms for all expected log entries to appear
+    const waitForLogs = async (expectedCount: number, timeout: number = 500): Promise<string> => {
+      const start = Date.now();
+      while (Date.now() - start < timeout) {
+        const files = fs
+          .readdirSync(__dirname)
+          .filter((f) => f.startsWith("rotate-test") && f.endsWith(".log"));
+        let content = "";
+        for (const file of files) {
+          content += fs.readFileSync(path.join(__dirname, file), "utf8");
+        }
+        let allFound = true;
+        for (let i = 0; i < expectedCount; i++) {
+          if (!content.includes(`Concurrent log ${i}`)) {
+            allFound = false;
+            break;
+          }
+        }
+        if (allFound) return content;
+        await new Promise((r) => setTimeout(r, 20));
+      }
+      throw new Error("Not all log entries found in time");
+    };
+
+    const content = await waitForLogs(N);
     for (let i = 0; i < N; i++) {
       expect(content).toContain(`Concurrent log ${i}`);
     }
