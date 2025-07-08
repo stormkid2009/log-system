@@ -13,6 +13,7 @@
     "test:basic": "ts-node examples/basic-usage.ts",
     "test:api": "ts-node examples/api-error-example.ts",
     "test:nextjs": "ts-node examples/nextjs-example.ts",
+    "test": "jest",
     "clean": "rm -rf dist logs",
     "prepublishOnly": "npm run clean && npm run build"
   },
@@ -26,8 +27,11 @@
   "author": "Anwar Ahmed",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^5.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^30.0.4",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.0.0",
-    "@types/node": "^20.0.0"
+    "typescript": "^5.0.0"
   }
 }
