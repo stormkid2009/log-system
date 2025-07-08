@@ -1,11 +1,42 @@
-// Log formatting utilites
+/**
+ * Custom Log Formatters Module
+ *
+ * This module provides various formatters for log entries, allowing logs to be output in different
+ * formats such as JSON, plain text, and CSV. Formatters implement the LogFormatter interface to
+ * ensure consistent behavior across different output formats.
+ *
+ * Available formatters:
+ * - JsonFormatter: Outputs logs as JSON strings (default)
+ * - TextFormatter: Outputs logs in human-readable text format
+ * - CsvFormatter: Outputs logs in CSV format for data analysis
+ *
+ * @module custom-format
+ * @see {@link LogFormatter} - The base interface for all formatters
+ * @see {@link createFormatter} - Factory function to create formatters
+ */
 
-import { LogEntry, LogLevel, ApiError } from "../types";
+import { LogEntry, ApiError } from "../types";
 
 /**
- * Interface for log formatters
+ * Interface for log formatters that can convert LogEntry objects into strings.
+ * Implement this interface to create custom log formatters.
+ *
+ * @example
+ * ```typescript
+ * class CustomFormatter implements LogFormatter {
+ *   format(entry: LogEntry): string {
+ *     return `[${entry.timestamp}] ${entry.level}: ${entry.message}`;
+ *   }
+ * }
+ * ```
  */
 export interface LogFormatter {
+  /**
+   * Converts a log entry into a formatted string representation.
+   *
+   * @param entry - The log entry to format
+   * @returns The formatted log entry as a string
+   */
   format(entry: LogEntry): string;
 }
 
