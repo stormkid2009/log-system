@@ -119,6 +119,9 @@ export async function safeAppendToLog(
       await rotateLogFile(logFilePath, maxSize);
 
       await fs.appendFile(logFilePath, data + "\n", "utf8");
+
+      // Check again after writing in case the file now exceeds the limit
+      await rotateLogFile(logFilePath, maxSize);
     } catch (error) {
       console.error("Failed to write to log file:", error);
     }
