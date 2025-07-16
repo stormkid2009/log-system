@@ -1,5 +1,5 @@
 {
-  "name": "log-system",
+  "name": "log-system-pro",
   "version": "1.0.0",
   "description": "A robust logging library for API errors and general logging",
   "main": "dist/index.js",
